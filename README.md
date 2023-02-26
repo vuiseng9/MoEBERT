@@ -8,12 +8,18 @@ Importance-Guided Adaptation*](https://arxiv.org/abs/2204.07675) (NAACL 2022).
 conda env create -f environment.yml
 ```
 * Install Transformers locally.
-```
-pip install -e .
-```
 * *Note:* The code is adapted from [this codebase](https://github.com/microsoft/LoRA/blob/main/examples/NLU/README.md).
 Arguments regarding *LoRA* and *adapter* can be safely ignored.
+```bash
+# vuiseng9's
+pip install -e .
 
+pip install \
+  datasets \
+  loralib==0.1.1 \
+  scikit-learn # requirements in text-classification \
+  tensorboard
+```
 ## Instructions
 MoEBERT targets task-specific distillation. Before running any distillation code, a pre-trained BERT model should be fine-tuned on the target task.
 Path to the fine-tuned model should be passed to `--model_name_or_path`.
@@ -21,8 +27,14 @@ Path to the fine-tuned model should be passed to `--model_name_or_path`.
 ### Importance Score Computation
 * Use `bert_base_mnli_example.sh` to compute the importance scores, 
   add a `--preprocess_importance` argument, remove the `--do_train` argument.
+  ```bash
+  ./scripts/score_importance.sh local # vuiseng9's
+  ```
 * If multiple GPUs are used to compute the importance scores, a `importance_[rank].pkl` file will be saved for each GPU. 
   Use `merge_importance.py` to merge these files.
+  ```bash
+  python ../../merge_importance.py --num_files=4 # vuiseng9's
+  ```
 * To use the pre-computed importance scores, pass the file name to `--moebert_load_importance`.
 
 ### Knowledge Distillation
