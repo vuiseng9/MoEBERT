@@ -36,7 +36,9 @@ Path to the fine-tuned model should be passed to `--model_name_or_path`.
   python ../../merge_importance.py --num_files=4 # vuiseng9's
   ```
 * To use the pre-computed importance scores, pass the file name to `--moebert_load_importance`.
-
+  ```bash
+  ./scripts/train-moebert-mnli.sh local # vuiseng9's
+  ```
 ### Knowledge Distillation
 * For GLUE tasks, see `examples/text-classification/run_glue.py`.
 * For question answering tasks, see `examples/question-answering/run_qa.py`.
